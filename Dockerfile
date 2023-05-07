@@ -8,6 +8,9 @@ RUN mvn clean package -DskipTests
 #
 # Package stage
 #
+# Copy the Maven configuration files
+COPY pom.xml .
+COPY src ./src
 
 # Copy the built JAR file from the previous stage
 COPY --from=build /target/employee-management-api-0.0.4-SNAPSHOT.jar employee-api.jar
