@@ -14,7 +14,8 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the built JAR file from the previous stage
-COPY --from=build /app/target/employee-api.jar
+COPY --from=build /target/employee-management-api-0.0.3-SNAPSHOT.jar employee-api.jar
 
 # Set the entry point to run the JAR file
+EXPOSE 8085
 ENTRYPOINT ["java", "-jar", "employee-api.jar"]
