@@ -14,7 +14,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the built JAR file from the previous stage
-COPY --from=build /app/target/employee-api.jar .
+COPY --from=build /app/target/employee.jar .
 
 # Set the entry point to run the JAR file
-ENTRYPOINT ["java", "-jar", "your-application.jar"]
+ENTRYPOINT ["java", "-jar", "employee.jar"]
