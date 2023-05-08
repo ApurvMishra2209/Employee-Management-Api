@@ -17,5 +17,5 @@ WORKDIR /app
 COPY --from=build /app/target/employee-management-api-0.0.4-SNAPSHOT.jar employee-api.jar
 
 # Set the entry point to run the JAR file
-EXPOSE 8080
+# EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "employee-api.jar"]
