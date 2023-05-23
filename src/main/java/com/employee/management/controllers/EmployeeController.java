@@ -60,9 +60,9 @@ public class EmployeeController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/patch")
-        public ResponseEntity<Void> patchUpdateEmployee(@RequestBody @Valid final EmployeePatchDTO employeePatchDTO){
-        employeeService.patchUpdateEmployee(employeePatchDTO);
+    @PatchMapping("/patch/{id}")
+        public ResponseEntity<Void> patchUpdateEmployee(@PathVariable final Long id ,@RequestBody @Valid final EmployeePatchDTO employeePatchDTO){
+        employeeService.patchUpdateEmployee(id,employeePatchDTO);
         return ResponseEntity.ok().build();
     }
 

@@ -34,7 +34,7 @@ public class SwaggerConfig {
                 "2.5",
                 "Terms of Service",
                 new Contact(
-                        "Portfolio","https://portfolio-production-d0aa.up.railway.app/",
+                        "Portfolio","https://github.com/ApurvMishra2209/Portfolio",
                         "apurv3666@gmail.com"),"Apache Licence Version 2.0"
                 ,"https://www.apache.org/license.html", Collections.emptyList());
     }

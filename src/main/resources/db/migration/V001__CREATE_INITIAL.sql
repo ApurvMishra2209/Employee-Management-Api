@@ -46,7 +46,9 @@ DROP TABLE IF EXISTS department;
 CREATE TABLE department (
                                id BIGINT AUTO_INCREMENT NOT NULL,
                                department_name VARCHAR(100) NOT NULL,
-                               manager char(36) NULL,
+                               manager_uuid char(50) NULL,
+                               manager_first_name VARCHAR(100)  NULL,
+                               manager_last_name VARCHAR(100)  NULL,
                                date_created timestamp NOT NULL,
                                last_updated timestamp NOT NULL,
                                CONSTRAINT PK_DEPARTMENT PRIMARY KEY (id)

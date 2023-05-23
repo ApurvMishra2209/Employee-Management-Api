@@ -24,7 +24,7 @@ public class ProfileDTO {
 
     private  Set<AddressDTO> address;
 
-    private DepartmentName departmentName;
+    private String departmentName;
 
     private Set<String> skillName;
 

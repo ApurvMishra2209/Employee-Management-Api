@@ -1,6 +1,8 @@
 package com.employee.management.service;
 
 import com.employee.management.domain.Employee;
+
+import com.employee.management.exception.NotFoundException;
 import com.employee.management.mapper.AuthenticationDTOMapper;
 import com.employee.management.mapper.EmployeeDTOMapper;
 import com.employee.management.mapper.EmployeePatchDTOMapper;
@@ -81,8 +83,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void patchUpdateEmployee(EmployeePatchDTO employeePatchDTO) {
-        final Employee employee = new Employee();
+    public void patchUpdateEmployee( Long id,EmployeePatchDTO employeePatchDTO) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Employee not found with ID: " + id));
         employeePatchDTOMapper.mapToEntity(employeePatchDTO,employee);
         employeeRepository.save(employee);
     }

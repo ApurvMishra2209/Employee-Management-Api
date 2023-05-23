@@ -3,8 +3,9 @@ package com.employee.management.service;
 
 import com.employee.management.domain.Department;
 import com.employee.management.mapper.DepartmentDTOMapper;
-import com.employee.management.model.DepartmentDTO;
+import com.employee.management.model.RequestDepartmentDTO;
 import com.employee.management.model.PaginatedResponse;
+import com.employee.management.model.ResponseDepartmentDTO;
 import com.employee.management.repo.DepartmentRepository;
 import com.employee.management.util.PaginatedResponseUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,16 +30,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public PaginatedResponse<?> findAll(Pageable pageable) {
         Page<Department> departmentPage = departmentRepository.findAllByOrderByDateCreatedDesc(pageable);
-        List<DepartmentDTO> responseData = departmentPage.stream()
-                .map(department -> departmentDTOMapper.mapToDTO(department, new DepartmentDTO()))
+        List<ResponseDepartmentDTO> responseData = departmentPage.stream()
+                .map(department -> departmentDTOMapper.mapToDTO(department, new ResponseDepartmentDTO()))
                 .collect(Collectors.toList());
         return PaginatedResponseUtil.paginatedResponse(responseData, departmentPage);
     }
 
     @Override
-    public Long create(DepartmentDTO departmentDTO) {
+    public Long create(RequestDepartmentDTO requestDepartmentDTO) {
         final Department department = new Department();
-        departmentDTOMapper.mapToEntity(departmentDTO, department);
+        departmentDTOMapper.mapToEntity(requestDepartmentDTO, department);
         return departmentRepository.save(department).getId();
 
     }
@@ -46,10 +47,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 
     @Override
-    public void update(Long id, DepartmentDTO departmentDTO) {
+    public void update(Long id, RequestDepartmentDTO requestDepartmentDTO) {
         final Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        departmentDTOMapper.mapToEntity(departmentDTO, department);
+        departmentDTOMapper.mapToEntity(requestDepartmentDTO, department);
         departmentRepository.save(department);
 
     }
@@ -60,9 +61,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 
     @Override
-    public DepartmentDTO get(Long id) {
+    public ResponseDepartmentDTO get(Long id) {
         return departmentRepository.findById(id)
-                .map(department -> departmentDTOMapper.mapToDTO(department, new DepartmentDTO()))
+                .map(department -> departmentDTOMapper.mapToDTO(department, new ResponseDepartmentDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
