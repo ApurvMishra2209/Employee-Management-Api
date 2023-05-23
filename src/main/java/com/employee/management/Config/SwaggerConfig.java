@@ -28,14 +28,14 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("Welcome!!" +" " +
-                "Employee Management API for ThoughtPearl Software pvt ltd.",
-                "ManagementApi for Employees",
+        return new ApiInfo("Welcome!!" +" Apurv " +
+                "Employee Management API.",
+                "ManagementApi for IT Employees",
                 "2.5",
                 "Terms of Service",
                 new Contact(
-                        "ThoughtPearl","https://thoughtpearl.com/",
-                        "hr@thoughtpearls.com"),"Apache Licence Version 2.0"
+                        "Portfolio","https://github.com/ApurvMishra2209/Portfolio",
+                        "apurv3666@gmail.com"),"Apache Licence Version 2.0"
                 ,"https://www.apache.org/license.html", Collections.emptyList());
     }
 
