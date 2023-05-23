@@ -1,7 +1,8 @@
 package com.employee.management.controllers;
 
-import com.employee.management.model.DepartmentDTO;
+import com.employee.management.model.RequestDepartmentDTO;
 import com.employee.management.model.PaginatedResponse;
+import com.employee.management.model.ResponseDepartmentDTO;
 import com.employee.management.service.DepartmentService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -30,20 +31,20 @@ public class DepartmentController {
         return ResponseEntity.ok(departmentService.findAll(pageable));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable final Long id) {
+    public ResponseEntity<ResponseDepartmentDTO> getDepartment(@PathVariable final Long id) {
         return ResponseEntity.ok(departmentService.get(id));
     }
 
     @PostMapping
     public ResponseEntity<Long> createDepartment(
-            @RequestBody @Valid final DepartmentDTO departmentDTO) {
-        return new ResponseEntity<>(departmentService.create(departmentDTO), HttpStatus.CREATED);
+            @RequestBody @Valid final RequestDepartmentDTO requestDepartmentDTO) {
+        return new ResponseEntity<>(departmentService.create(requestDepartmentDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateDepartment(@PathVariable final Long id,
-                                               @RequestBody @Valid final DepartmentDTO departmentDTO) {
-        departmentService.update(id, departmentDTO);
+                                               @RequestBody @Valid final RequestDepartmentDTO requestDepartmentDTO) {
+        departmentService.update(id, requestDepartmentDTO);
         return ResponseEntity.ok().build();
     }
 

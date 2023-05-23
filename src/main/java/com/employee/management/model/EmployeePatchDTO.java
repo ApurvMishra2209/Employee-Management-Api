@@ -7,9 +7,8 @@ import lombok.Setter;
 @Setter
 public class EmployeePatchDTO {
 
-    private  Long id;
 
-    private String employeeName;
+    private Long departmentId;
 
     private Role role;
 }

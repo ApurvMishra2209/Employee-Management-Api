@@ -1,6 +1,6 @@
 package com.employee.management.domain;
 
-import com.employee.management.model.DepartmentName;
+//import com.employee.management.model.DepartmentName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,17 +24,25 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private DepartmentName departmentName;
+//    @Column(nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private DepartmentName departmentName;
+
+    @Column(unique = true,nullable = false)
+    private String departmentName;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private Set<Employee> employee;
 
     @Column(unique = true, columnDefinition = "char(36)")
     @Type(type = "uuid-char")
-    private UUID manager;
+    private UUID managerUuid;
 
+    @Column
+    private String managerFirstName;
+
+    @Column
+    private String managerLastName;
 
     @Column
     private OffsetDateTime dateCreated;
