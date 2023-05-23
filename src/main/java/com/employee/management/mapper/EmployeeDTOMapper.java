@@ -49,10 +49,15 @@ public class EmployeeDTOMapper {
         }
             if (employeeDTO.getDepartment() != null
                     && (employee.getDepartment() == null ||
-                    !employee.getDepartment().getId().equals(employeeDTO.getDepartment()))) {
-                final Department department = departmentRepository.findById(employeeDTO.getDepartment())
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found"));
-                employee.setDepartment(department);
+                    !employee.getDepartment().getDepartmentName().equals(employeeDTO.getDepartment()))) {
+                try {
+                    final Department department = departmentRepository.findByDepartmentName(employeeDTO.getDepartment());
+                    employee.setDepartment(department);
+                }
+                catch (Exception e)
+                {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found");
+                }
             }
             return employee;
         }

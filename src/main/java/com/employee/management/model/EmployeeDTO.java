@@ -22,7 +22,7 @@ public class EmployeeDTO {
 
     private String lastName;
 
-    private Long department;
+    private DepartmentName department;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateOfBirth;
