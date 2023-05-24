@@ -1,6 +1,5 @@
 package com.employee.management.model;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,16 +8,17 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class DepartmentDTO {
-
+public class ResponseDepartmentDTO {
 
     private Long id;
 
-    private DepartmentName departmentName;
+    private String departmentName;
 
     private List<Long> employeeIds;
 
-    private UUID manager;
+    private UUID managerUUID;
 
+    private String managerFirstName;
 
+    private String managerLastName;
 }

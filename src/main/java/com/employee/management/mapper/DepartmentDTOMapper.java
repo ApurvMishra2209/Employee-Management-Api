@@ -1,7 +1,11 @@
 package com.employee.management.mapper;
 
 import com.employee.management.domain.*;
-import com.employee.management.model.DepartmentDTO;
+import com.employee.management.exception.DuplicateException;
+//import com.employee.management.model.DepartmentName;
+import com.employee.management.model.ProfileDTO;
+import com.employee.management.model.RequestDepartmentDTO;
+import com.employee.management.model.ResponseDepartmentDTO;
 import com.employee.management.repo.DepartmentRepository;
 import com.employee.management.repo.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -21,25 +26,45 @@ public class DepartmentDTOMapper {
     private final EmployeeDTOMapper employeeDTOMapper;
     private final EmployeeRepository employeeRepository;
 
-    public DepartmentDTO mapToDTO(final Department department, final DepartmentDTO departmentDTO)
+    public ResponseDepartmentDTO mapToDTO(final Department department, final ResponseDepartmentDTO responseDepartmentDTO)
     {
-        departmentDTO.setId(department.getId());
-        departmentDTO.setDepartmentName(department.getDepartmentName());
-        departmentDTO.setManager(department.getManager());
-        departmentDTO.setEmployeeIds(department.getEmployee() == null
-        ? null : department.getEmployee().stream().map(Employee::getId).collect(Collectors.toList()));
-        return departmentDTO;
+        responseDepartmentDTO.setId(department.getId());
+        responseDepartmentDTO.setDepartmentName(department.getDepartmentName());
+        responseDepartmentDTO.setManagerUUID(department.getManagerUuid());
+        responseDepartmentDTO.setManagerFirstName(department.getManagerFirstName());
+        responseDepartmentDTO.setManagerLastName(department.getManagerLastName());
+        responseDepartmentDTO.setEmployeeIds(department.getEmployee() == null
+                ? null : department.getEmployee().stream().map(Employee::getId).collect(Collectors.toList()));
+        return responseDepartmentDTO;
     }
 
-    public Department mapToEntity(final DepartmentDTO departmentDTO,final Department department) {
+    public Department mapToEntity(final RequestDepartmentDTO requestDepartmentDTO, final Department department) {
 
-        department.setId(departmentDTO.getId());
-        department.setDepartmentName(departmentDTO.getDepartmentName());
-        department.setManager(departmentDTO.getManager()  == null ? null : departmentDTO.getManager());
-        if(departmentDTO.getEmployeeIds() != null)
+        Optional<Employee> employeeOptional = employeeRepository.findEmployeeByUuid(requestDepartmentDTO.getManagerUuid());
+
+//        department.setId(requestDepartmentDTO.getId());
+        if (departmentRepository.existsByDepartmentNameIgnoreCase(requestDepartmentDTO.getDepartmentName())) {
+            // Skill already exists, log an error or throw an exception
+            // You can log an error message or throw a custom exception here
+            // For example, logging an error message:
+            System.err.println("Department already exists: " + requestDepartmentDTO.getDepartmentName());
+            // or throwing a custom exception:
+//            throw new Exception("Skill already exists: " + skillSetDTO.getSkillName());
+            throw new DuplicateException("Department already exists: " + requestDepartmentDTO.getDepartmentName());
+        }
+        department.setDepartmentName(requestDepartmentDTO.getDepartmentName());
+
+        department.setManagerUuid(requestDepartmentDTO.getManagerUuid()  == null ? null : requestDepartmentDTO.getManagerUuid());
+        if (employeeOptional.isPresent()) {
+            Employee employee = employeeOptional.get();
+            department.setManagerFirstName(employee.getFirstName());
+            department.setManagerLastName(employee.getLastName());
+        }
+
+        if(requestDepartmentDTO.getEmployeeIds() != null)
         {
-            final List<Employee> employeeset=employeeRepository.findAllById(departmentDTO.getEmployeeIds());
-            if(employeeset.size() != departmentDTO.getEmployeeIds().size())
+            final List<Employee> employeeset=employeeRepository.findAllById(requestDepartmentDTO.getEmployeeIds());
+            if(employeeset.size() != requestDepartmentDTO.getEmployeeIds().size())
             {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "one of employee not found");
             }

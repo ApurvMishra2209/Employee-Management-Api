@@ -19,5 +19,5 @@ public interface EmployeeService {
 
     ProfileDTO get(final Long id, final String token);
 
-    void patchUpdateEmployee(final EmployeePatchDTO employeePatchDTO);
+    void patchUpdateEmployee(final Long id,final EmployeePatchDTO employeePatchDTO);
 }
