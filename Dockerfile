@@ -26,6 +26,9 @@ COPY --from=build /app/target/employee-management-api-0.0.5-SNAPSHOT.jar employe
 # Copy the Flyway configuration files
 COPY flyway ./flyway
 
+# Set the executable permission for Flyway CLI
+RUN chmod +x /usr/local/bin/flyway
+
 # Run Flyway repair command
 RUN flyway -configFiles=flyway/conf/flyway.conf repair
 
