@@ -14,8 +14,11 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Install Flyway CLI
-RUN wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/8.0.1/flyway-commandline-8.0.1-linux-x64.tar.gz | tar xvz && \
-    ln -s $(pwd)/flyway-8.0.1/flyway /usr/local/bin/
+RUN apt-get update && \
+    apt-get install -y wget && \
+    wget -qO /usr/local/bin/flyway https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/8.0.1/flyway-commandline-8.0.1-linux-x64.tar.gz && \
+    tar xfz /usr/local/bin/flyway && \
+    chmod +x /usr/local/bin/flyway
 
 # Copy the built JAR file from the previous stage
 COPY --from=build /app/target/employee-management-api-0.0.5-SNAPSHOT.jar employee-api.jar
