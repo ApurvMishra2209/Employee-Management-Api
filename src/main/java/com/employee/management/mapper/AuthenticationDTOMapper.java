@@ -18,7 +18,7 @@ public class AuthenticationDTOMapper {
         authenticationRequestDTO.setUserName(employee.getUserName());
         authenticationRequestDTO.setPassword(employee.getPassword());
         authenticationRequestDTO.setRole(employee.getRole());
-        authenticationRequestDTO.setUuid(employee.getUuid());
+//        authenticationRequestDTO.setUuid(employee.getUuid());
         return authenticationRequestDTO;
 
     }

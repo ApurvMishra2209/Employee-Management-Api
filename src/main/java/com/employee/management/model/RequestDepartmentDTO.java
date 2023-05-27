@@ -17,9 +17,7 @@ public class RequestDepartmentDTO {
 
     private UUID managerUuid;
 
-    private String managerFirstName;
 
-    private String managerLastName;
 
 
 }
