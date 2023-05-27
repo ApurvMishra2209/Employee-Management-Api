@@ -69,7 +69,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/v2/api-docs","/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/token","/api/**").permitAll()
 ////                 .antMatchers(HttpMethod.POST).hasAnyRole("ADMIN", "MANAGER")
 ////                .antMatchers(HttpMethod.PUT).hasAnyRole("ADMIN", "MANAGER")
 ////                .antMatchers(HttpMethod.DELETE).hasAnyRole("MANAGER")
