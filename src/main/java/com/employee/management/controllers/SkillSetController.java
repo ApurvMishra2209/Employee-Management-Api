@@ -1,5 +1,7 @@
 package com.employee.management.controllers;
 
+import com.employee.management.exception.AlreadyExistsException;
+import com.employee.management.exception.ErrorResponse;
 import com.employee.management.model.PaginatedResponse;
 import com.employee.management.model.ProfileSkillsetDTO;
 import com.employee.management.model.SkillSetDTO;
@@ -35,10 +37,16 @@ public class SkillSetController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> createSkill(
-            @RequestBody @Valid final SkillSetDTO skillSetDTO) {
-        return new ResponseEntity<>(skillSetService.create(skillSetDTO), HttpStatus.CREATED);
+    public ResponseEntity<?> createSkill(@RequestBody @Valid final SkillSetDTO skillSetDTO) {
+        try {
+            Long skillId = skillSetService.create(skillSetDTO);
+            return new ResponseEntity<>(skillId, HttpStatus.CREATED);
+        } catch (AlreadyExistsException ex) {
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+        }
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateSkill(@PathVariable final Long id,

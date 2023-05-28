@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface EmployeeService {
 
-    ProfileDTO getProfile(final UUID id);
+    ProfileDTO getProfile(final String id);
 
     PaginatedResponse<?> findAll(final Pageable pageable);
 

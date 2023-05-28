@@ -43,10 +43,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
     @Override
-    public ProfileDTO getProfile(final UUID uid) {
+    public ProfileDTO getProfile(final String uid) {
         return employeeRepository.findEmployeeByUuid(uid)
                 .map(employee -> profileDTOMapper.mapToProfile(employee,new ProfileDTO()))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee not found"));
     }
 
 

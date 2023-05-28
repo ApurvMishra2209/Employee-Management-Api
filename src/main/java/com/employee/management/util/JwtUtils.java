@@ -50,7 +50,7 @@ public class JwtUtils {
         return doGenerateToken(claims, employee.getUuid());
     }
 
-    private String doGenerateToken(Map<String, Object> claims, UUID subject) {
+    private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject.toString()).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SignatureAlgorithm.HS256,SECRET_KEY).compact();

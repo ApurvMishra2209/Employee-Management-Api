@@ -1,6 +1,7 @@
 package com.employee.management.controllers;
 
 
+import com.employee.management.exception.ErrorResponse;
 import com.employee.management.model.*;
 import com.employee.management.service.EmployeeService;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.UUID;
@@ -30,8 +32,14 @@ public class EmployeeController {
     }
 
     @GetMapping("/getprofile/{uid}")
-    public ResponseEntity<ProfileDTO> getEmployeeProfileByUuid(@PathVariable final UUID uid) {
-        return ResponseEntity.ok(employeeService.getProfile(uid));
+    public ResponseEntity<?> getEmployeeProfileByUuid(@PathVariable final String uid) {
+        try {
+            ProfileDTO profileDTO = employeeService.getProfile(uid);
+            return ResponseEntity.ok(profileDTO);
+        }catch (ResponseStatusException ex) {
+            ErrorResponse errorResponse = new ErrorResponse(ex.getStatus(), ex.getMessage());
+            return new ResponseEntity<>(errorResponse, ex.getStatus());
+        }
     }
 
     @GetMapping("/{id}")

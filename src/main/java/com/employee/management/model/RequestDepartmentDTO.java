@@ -15,7 +15,7 @@ public class RequestDepartmentDTO {
 
     private List<Long> employeeIds;
 
-    private UUID managerUuid;
+    private String managerUuid;
 
 
 

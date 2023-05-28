@@ -1,5 +1,7 @@
 package com.employee.management.controllers;
 
+import com.employee.management.exception.AlreadyExistsException;
+import com.employee.management.exception.ErrorResponse;
 import com.employee.management.model.RequestDepartmentDTO;
 import com.employee.management.model.PaginatedResponse;
 import com.employee.management.model.ResponseDepartmentDTO;
@@ -36,10 +38,20 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> createDepartment(
-            @RequestBody @Valid final RequestDepartmentDTO requestDepartmentDTO) {
-        return new ResponseEntity<>(departmentService.create(requestDepartmentDTO), HttpStatus.CREATED);
+    public ResponseEntity<?> createDepartment(@RequestBody @Valid final RequestDepartmentDTO requestDepartmentDTO) {
+        try {
+            Long departmentId = departmentService.create(requestDepartmentDTO);
+            return new ResponseEntity<>(departmentId, HttpStatus.CREATED);
+        } catch (AlreadyExistsException ex) {
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+        }
+        catch (Exception ex) {
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateDepartment(@PathVariable final Long id,

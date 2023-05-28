@@ -17,7 +17,7 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
     List<Employee> findAllByIdIn(List<Long> id);
 
-    Optional<Employee> findEmployeeByUuid(UUID uid);
+    Optional<Employee> findEmployeeByUuid(String uid);
 
     Employee findByEmployeeDetails_Id(Long EmployeeDetailsId);
 

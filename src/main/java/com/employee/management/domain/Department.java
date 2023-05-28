@@ -10,7 +10,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.Set;
-import java.util.UUID;
+
 
 @Entity
 @Getter
@@ -34,9 +34,8 @@ public class Department {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private Set<Employee> employee;
 
-    @Column(unique = true, columnDefinition = "char(36)")
-    @Type(type = "uuid-char")
-    private UUID managerUuid;
+    @Column(unique = true)
+    private String managerUuid;
 
     @Column
     private String managerFirstName;

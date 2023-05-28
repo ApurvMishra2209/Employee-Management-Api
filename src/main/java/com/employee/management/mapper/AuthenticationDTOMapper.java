@@ -2,6 +2,7 @@ package com.employee.management.mapper;
 
 import com.employee.management.domain.Employee;
 import com.employee.management.model.AuthenticationRequestDTO;
+import com.employee.management.util.EmployeeIdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,7 @@ public class AuthenticationDTOMapper {
         employee.setUserName(authenticationRequestDTO.getUserName());
         employee.setPassword(passwordEncoder.encode(authenticationRequestDTO.getPassword()));
         employee.setRole(authenticationRequestDTO.getRole());
-        UUID uuid = UUID.randomUUID();
+        String uuid = EmployeeIdGenerator.generateUniqueId();
         employee.setUuid(uuid);
         return employee;
     }

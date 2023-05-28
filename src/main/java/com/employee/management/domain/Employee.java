@@ -34,9 +34,8 @@ public class Employee {
     @Column
     private String lastName;
 
-    @Column(nullable = false,unique = true, columnDefinition = "char(36)")
-    @Type(type = "uuid-char")
-    private UUID uuid;
+    @Column(nullable = false,unique = true)
+    private String uuid;
 
     @Column
     private String gender;

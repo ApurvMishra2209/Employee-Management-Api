@@ -2,7 +2,7 @@ package com.employee.management.mapper;
 
 import com.employee.management.domain.Employee;
 import com.employee.management.domain.SkillSet;
-import com.employee.management.exception.DuplicateException;
+import com.employee.management.exception.AlreadyExistsException;
 import com.employee.management.model.ProfileSkillsetDTO;
 import com.employee.management.model.SkillSetDTO;
 import com.employee.management.repo.EmployeeRepository;
@@ -34,7 +34,7 @@ public class SkillSetDTOMapper {
             System.err.println("Skill already exists: " + skillSetDTO.getSkillName());
             // or throwing a custom exception:
 //            throw new Exception("Skill already exists: " + skillSetDTO.getSkillName());
-            throw new DuplicateException("Skill already exists: " + skillSetDTO.getSkillName());
+            throw new AlreadyExistsException("Skill already exists: " + skillSetDTO.getSkillName());
         }
 
       skillSet.setSkillName(skillSetDTO.getSkillName());

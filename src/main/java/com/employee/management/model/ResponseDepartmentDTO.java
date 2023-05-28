@@ -16,7 +16,7 @@ public class ResponseDepartmentDTO {
 
     private List<Long> employeeIds;
 
-    private UUID managerUUID;
+    private String managerUUID;
 
     private String managerFirstName;
 

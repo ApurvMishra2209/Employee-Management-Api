@@ -1,9 +1,8 @@
 package com.employee.management.mapper;
 
 import com.employee.management.domain.*;
-import com.employee.management.exception.DuplicateException;
+import com.employee.management.exception.AlreadyExistsException;
 //import com.employee.management.model.DepartmentName;
-import com.employee.management.model.ProfileDTO;
 import com.employee.management.model.RequestDepartmentDTO;
 import com.employee.management.model.ResponseDepartmentDTO;
 import com.employee.management.repo.DepartmentRepository;
@@ -16,6 +15,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Component
@@ -50,11 +51,16 @@ public class DepartmentDTOMapper {
             System.err.println("Department already exists: " + requestDepartmentDTO.getDepartmentName());
             // or throwing a custom exception:
 //            throw new Exception("Skill already exists: " + skillSetDTO.getSkillName());
-            throw new DuplicateException("Department already exists: " + requestDepartmentDTO.getDepartmentName());
+            throw new AlreadyExistsException("Department already exists: " + requestDepartmentDTO.getDepartmentName());
         }
         department.setDepartmentName(requestDepartmentDTO.getDepartmentName());
+        if(requestDepartmentDTO.getManagerUuid() != null){
+            employeeRepository.findEmployeeByUuid(requestDepartmentDTO.getManagerUuid())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Manager not found"));
+            department.setManagerUuid(requestDepartmentDTO.getManagerUuid());
+        }
+//        department.setManagerUuid(requestDepartmentDTO.getManagerUuid()  == null ? null : requestDepartmentDTO.getManagerUuid());
 
-        department.setManagerUuid(requestDepartmentDTO.getManagerUuid()  == null ? null : requestDepartmentDTO.getManagerUuid());
         if (employeeOptional.isPresent()) {
             Employee employee = employeeOptional.get();
             department.setManagerFirstName(employee.getFirstName());
